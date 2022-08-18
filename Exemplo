@@ -1,0 +1,87 @@
+unit Principal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Controls.Presentation, FMX.Edit;
+
+
+{$REGION 'Area da Classe Intermediaria para o Edit'}
+  { ..................................................
+    Classe de Interposição para o componente TEdit
+    Escolha o Tipo , na propriedade TipoEditor
+
+    Exemplo de uso
+   ....................................................}
+
+   // Tipo Enumerado para o Editor de tipos
+  type TFmxEditTypes = (FxmEdtNumber,FmxEdtCurrency,FmxEdtPercent);
+
+  type TEdit = class(FMX.edit.TEdit)
+
+  private
+    FTipoEditor: TFmxEditTypes;
+
+   {$REGION 'Area dos métodos privados , manipulação dos eventos do componente'}
+    procedure EditTypingNumber(Sender: TObject);
+    procedure EditTypingCurrency(Sender: TObject);
+    procedure EditTypingPercent(Sender: TObject);
+    procedure SetFTipoEditor(const Value: TFmxEditTypes);
+   {$ENDREGION}
+
+  public
+
+    property TipoEditor:TFmxEditTypes read FTipoEditor write SetFTipoEditor;
+
+  end;
+
+{$ENDREGION}
+
+
+type
+  TForm4 = class(TForm)
+    Edit1: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.fmx}
+
+{ TEdit }
+
+procedure TEdit.EditTypingCurrency(Sender: TObject);
+begin
+ // Inclua a Função que vai fazer functionar o Tipo Currency
+end;
+
+procedure TEdit.EditTypingNumber(Sender: TObject);
+begin
+  // Inclua a Função que vai fazer functionar o Tipo Number
+end;
+
+procedure TEdit.EditTypingPercent(Sender: TObject);
+begin
+   // Inclua a Função que vai fazer functionar o Tipo Percent
+end;
+
+procedure TEdit.SetFTipoEditor(const Value: TFmxEditTypes);
+begin
+  FTipoEditor := Value;
+
+  case FTipoEditor of
+    FxmEdtNumber  : OnTyping := EditTypingNumber;
+    FmxEdtCurrency: OnTyping := EditTypingCurrency;
+    FmxEdtPercent : OnTyping := EditTypingPercent;
+  end;
+
+end;
+
+end.
